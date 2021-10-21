@@ -1,10 +1,6 @@
 export default {
-    users: [],
-    editedUserName:'',
-    editedUser: {
-        name: '',
-        email:'',
-        password:'',
-        uid: ''
-    }
+    movies: [],
+    tvShows: [],
+    moviePics: [],
+    tvPics: []
 }

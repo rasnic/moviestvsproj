@@ -30,6 +30,7 @@ export default {
         commit('insertMovie', movie)
 
     },
+
     setEditMovieById: async ({state, commit}) => {
         let movie = {}
         if (state.movies.length && state.movies.find(item => item.id === state.editedMovieId)) {

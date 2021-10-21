@@ -1,28 +1,23 @@
 import database from "../../middleware/firebase/database";
 
 export default {
-    deleteUser: async ({state, commit}) => {
-        await database.removeUser({ name: state.editedUserName});
-        const userName = state.editedUserName;
-        commit('resetEditedUserName')
-        commit('deleteUser', userName)
-    },
-    updateUser: async ({state, commit}) => {
-        const user = {}
-        Object.assign(user, state.editedMovie)
-        user.name = state.editedUserName
-        await database.updateUser({ name: user.name, user: user})
-        commit('resetEditedUser')
-        commit('resetEditedUserName')
-        commit('editUser', user)
-    },
-    insertUser: async ({state, commit}) => {
-        const user = {}
-        Object.assign(user, state.editedUser)
+    getMyMovies: async ({commit}) => {
         debugger
-        await database.createUser({ user: user, name: state.editedUser.name})
-        commit('resetEditedUser')
-        commit('insertUser', user)
-
+        const movies = await database.getUserItems({entity: 'movies', uid: window.user.uid});
+        commit('setUserMovies', movies)
     },
+    getMyTVshows: async ({commit}) => {
+        const tvShows = await database.getUserItems({entity: 'tvShows', uid: window.user.uid});
+        commit('setUserTVshows', tvShows)
+    },
+    getMoviesPicture: async ({commit}) =>{
+        const moviePics =  await database.getPics({entity: 'movies'});
+        console.log(moviePics)
+        commit('setMoviesPics', moviePics)
+    },
+    getTVsPicture: async ({commit}) =>{
+        const tvPics =  await database.getPics({entity: 'tvShows'});
+        console.log(tvPics)
+        commit('setTVPics', tvPics)
+    }
 }

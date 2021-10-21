@@ -1,18 +1,15 @@
 <template>
-  <div class="home">
-    <Logout/>
+	<div class="home">
 
-  </div>
+<Carousel/>
+	</div>
 </template>
 
 <script>
-import Logout from "@/views/Logout";
 
+import Carousel from "@/components/Carousel";
 export default {
-  name: 'Home',
-  components: {
-    Logout
-
-  }
+	name: 'Home',
+	components: {Carousel},
 }
 </script>

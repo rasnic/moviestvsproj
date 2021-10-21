@@ -1,5 +1,5 @@
 <template dir="rtl">
-	<div class="q-pa-md row-lg items-lg-start q-gutter-lg" v-if="this.$route.params.type === 'tvShow'">
+	<div class="q-pa-md row-lg items-lg-start q-gutter-lg" v-if="this.$route.params.type === 'tvShows'">
 		<q-card dark bordered class="tv show"
 		        style="background:black">
 			<q-card-section>
@@ -18,7 +18,7 @@
 		</q-card>
 	</div>
 
-	<div v-else-if="this.$route.params.type === 'movie'">
+	<div v-else-if="this.$route.params.type === 'movies'">
 		<q-card dark bordered class="tv show"
 		        style="background:black">
 			<q-card-section>
@@ -45,7 +45,7 @@ import database from '../middleware/firebase/database'
 export default {
 	name: "Item",
 	data() {
-		if (this.$route.params.type === 'tvShow') {
+		if (this.$route.params.type === 'tvShows') {
 			return {
 				showedItem: {
 					name: '',
@@ -102,7 +102,7 @@ export default {
 							this.showedItem.overview = tvShow.overview;
 							this.showedItem.picture = tvShow.picture;
 							this.url = `https://image.tmdb.org/t/p/w300${this.showedItem.picture}`
-							this.video = `https://www.youtube.com/embed/${this.showedItem.trailer}/?rel=0`
+							this.video = `https://www.youtube.com/${this.showedItem.trailer}/?rel=0`
 						})
 			} else {
 				database.getItem({entity: 'movies', id: this.$route.params.id})
@@ -118,7 +118,7 @@ export default {
 							this.showedItem.picture = movie.picture;
 							this.showedItem.overview = movie.overview;
 							this.url = `https://image.tmdb.org/t/p/w300${this.showedItem.picture}`
-							this.video = `https://www.youtube.com/embed/${this.showedItem.trailer}/?rel=0`
+							this.video = `https://www.youtube.com/${this.showedItem.trailer}/?rel=0`
 						})
 			}
 		}

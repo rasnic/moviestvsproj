@@ -47,6 +47,8 @@ export default {
   methods: {
     ...mapActions('tvShows', [ 'updateTVshow','insertTVshow','setEditTVshowById']),
     ...mapMutations('tvShows', ['setEditedTVshow','setEditedTVshowId','checkTVshow']),
+	  ...mapActions('tvShowsGenre',['insertTVshowByGenre']),
+	  ...mapMutations('tvShowsGenre',['setEditedTVshowByGenre','setEditedTVshowIdByGenre']),
 
 	  getTVshows(){
 		  api.getItems({pageNumber: this.pageNumber, entity: 'tv'})
@@ -65,7 +67,7 @@ export default {
 				  this.editedItem.releaseDate = item.first_air_date;
 				  this.editedItem.seasons = item.number_of_seasons;
 				  this.editedItem.episodes = item.number_of_episodes;
-				  this.editedItem.episodeLength = item.episode_run_time;
+				  this.editedItem.episodeLength = item.episode_run_time.toString();
 				  this.editedItem.id = item.id;
 					this.editedItem.overview = item.overview;
 				  let genres = [];
@@ -78,7 +80,7 @@ export default {
 				  for (let j = 0; j < item.spoken_languages.length; j++) {
 					  languages.push(item.spoken_languages[j].english_name)
 				  }
-				  this.editedItem.languages = languages;
+				  this.editedItem.languages = languages.toString();
 					this.editedItem.ranking = item.vote_average;
 
 				  api.getTrailer({entity: 'tv', id: item.id});
@@ -106,12 +108,14 @@ export default {
 			  this.items[i].trailer = api.trailers[i]
 			  this.setEditedTVshowId(this.items[i].id);
 			  this.setEditedTVshow(this.items[i]);
-				if (await this.checkTVshow(this.items[i].id) !== -1) {
-					await this.insertTVshow()
-				}
-				else {
-					await this.updateTVshow()
-				}
+			  await this.insertTVshow()
+		  }
+			  for (let j = 0; j < this.items.length; j++) {
+				  debugger
+				  await this.setEditedTVshowIdByGenre(this.items[j].id);
+				  await this.setEditedTVshowByGenre(this.items[j]);
+				  await this.insertTVshowByGenre()
+
 		  }
 	  }
   }

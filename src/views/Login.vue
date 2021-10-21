@@ -12,7 +12,7 @@
 			<q-card-section>
 				<div class="text-h5">התחברות</div>
 				<q-btn @click="googleLogin()">login with google account</q-btn>
-				<q-btn @click="emailLogin()">login with user name</q-btn>
+				<q-btn @click="emailLogin()">login with email</q-btn>
 			</q-card-section>
 		</q-card>
 
@@ -35,27 +35,16 @@
 
 <script>
 import firebaseInstance from '../middleware/firebase'
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {addUser} from "@/middleware/firebase/database";
 
 export default {
 	name: "Login",
 	data() {
 		return {
 			connected: false,
-			userInput: {
-				name: '',
-				email: '',
-				password: '',
-				uid: ''
-			}
 		}
 	},
-	computed: {
-		...mapState('users', ['editedUser', "users", 'editedUserName'])
-	},
 	methods: {
-		...mapActions('users', ['insertUser']),
-		...mapMutations('users', ['setEditedUser', 'setEditedUserName', 'checkUser', 'resetEditedUserName']),
 		googleLogin() {
 			const provider = new firebaseInstance.firebase.auth.GoogleAuthProvider();
 			firebaseInstance.firebase.auth()
@@ -67,20 +56,8 @@ export default {
 						var token = credential.accessToken;
 						// The signed-in users info.
 						window.user = result.user;
-						debugger
-							this.userInput.name = window.user.displayName
-									this.userInput.email= window.user.email
-								this.userInput.uid= window.user.uid
 
-						this.setEditedUserName(this.userInput.name)
-						if (this.checkUser(window.user.displayName) === -1) {
-							this.resetEditedUserName()
-						} else {
-							this.setEditedUser(this.userInput)
-							this.setEditedUserName(window.user.displayName)
-							this.insertUser()
-						}
-						if (window.user.uid === "HfdKZNrSg5gUsWMQgGdpGXPR9ny2") {
+						if (window.user.uid === "55mBkKiLa8VT06VsM2XgXzlmdei2") {
 							this.loggedin();
 							this.$router.push('/admin')
 							location.reload()
@@ -108,16 +85,18 @@ export default {
 		emailRegistration() {
 			this.$router.push('/Registration')
 		},
-		loggedin() {
+		async loggedin() {
 			this.connected = !this.connected
+			debugger
+			await addUser({uid:window.user.uid, name:window.user.displayName, email: window.user.email})
 		}
 	},
 	created() {
-		if (window.user && window.user.uid !== "HfdKZNrSg5gUsWMQgGdpGXPR9ny2") {
+		if (window.user && window.user.uid !== "55mBkKiLa8VT06VsM2XgXzlmdei2") {
 			this.$router.push('/home')
 			location.reload()
 		}
-	}
+	},
 }
 
 </script>

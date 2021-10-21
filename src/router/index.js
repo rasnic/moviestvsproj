@@ -46,6 +46,12 @@ const routes = [
     meta: {authNotRequired: false}
   },
   {
+    path: '/userPage',
+    name: 'UserPage',
+    component: UserPage,
+    meta: {authNotRequired: false}
+  },
+  {
     path: '/tvShows/:genre',
     name: 'TVByGenre',
     component: TVByGenre,
@@ -58,7 +64,7 @@ const routes = [
     meta: {authNotRequired: false}
   },
   {
-    path: '/:type/user',
+    path: '/:type/user/:userId',
     name: 'MyItems',
     component: MyItems,
     meta: {authNotRequired: false}
@@ -69,12 +75,7 @@ const routes = [
     component: Item,
     meta: {authNotRequired: false}
   },
-  {
-    path: '/userPage',
-    name: 'UserPage',
-    component: UserPage,
-    meta: {authNotRequired: false}
-  },
+
 ];
 
 const router = new VueRouter({

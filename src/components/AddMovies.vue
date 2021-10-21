@@ -44,6 +44,8 @@ export default {
 	methods: {
 		...mapActions('movies', ['updateMovie', 'insertMovie']),
 		...mapMutations('movies', ['setEditedMovie', 'setEditedMovieId','checkMovie']),
+		...mapActions('moviesGenre',['insertMovieByGenre']),
+		...mapMutations('moviesGenre',['setEditedMovieByGenre','setEditedMovieIdByGenre']),
 
 		getMovies() {
 			api.getItems({pageNumber: this.pageNumber, entity: 'movie'})
@@ -65,7 +67,7 @@ export default {
 							for (let j = 0; j < item.spoken_languages.length; j++) {
 								languages.push(item.spoken_languages[j].english_name)
 							}
-							this.editedItem.languages = languages;
+							this.editedItem.languages = languages.toString();
 
 							this.editedItem.ranking = item.vote_average;
 							let genres = [];
@@ -97,14 +99,15 @@ export default {
 			for (let i = 0; i < this.items.length; i++) {
 				this.items[i].picture = api.pictures[i]
 				this.items[i].trailer = api.trailers[i]
-				this.setEditedMovieId(this.items[i].id);
-				this.setEditedMovie(this.items[i]);
-				if (this.checkMovie(this.items[i].id) !== -1) {
+				await this.setEditedMovieId(this.items[i].id);
+				await this.setEditedMovie(this.items[i]);
 					await this.insertMovie()
-				}
-				else {
-					await this.updateMovie()
-				}
+
+			}
+			for (let j = 0; j < this.items.length; j++) {
+				await this.setEditedMovieIdByGenre(this.items[j].id);
+				await this.setEditedMovieByGenre(this.items[j]);
+				await this.insertMovieByGenre()
 			}
 		},
 	},

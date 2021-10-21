@@ -9,7 +9,7 @@
 
 <script>
 import firebaseInstance from '../middleware/firebase'
-import {mapState, mapActions, mapMutations} from 'vuex';
+import {addUser} from "@/middleware/firebase/database";
 
 export default {
 	name: "Registration",
@@ -18,43 +18,31 @@ export default {
 			userInput: {
 				name: '',
 				email: '',
-				password: '',
-				uid: ''
+				password: ''
 			}
 		}
 	},
-	computed: {
-		...mapState('users', ['editedUser', "users", 'editedUserName'])
-	},
 	methods: {
-		...mapActions('users', ['insertUser']),
-		...mapMutations('users', ['setEditedUser', 'setEditedUserName', 'checkUser', 'resetEditedUserName']),
 		create() {
 			if (this.userInput.password.length < 5) {
 				alert('סיסמא חייבת להכיל לפחות 6 תווים');
-			} if (this.checkUser(this.userInput.name) === -1) {
-				this.setEditedUserName = this.userInput.name
-				alert('שם משתמש בשימוש')
-				this.resetEditedUserName()
-				}
-			else
-				{
-					firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.userInput.email, this.userInput.password)
-							.then(() => {
-								this.userInput.uid = window.user.uid
-								this.setEditedUser(this.userInput)
-								this.insertUser()
-								this.$router.push('/')
-							})
-							.catch((error) => {
-								var errorCode = error.code;
-								var errorMessage = error.message;
-							});
-				}
+			}
+				firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.userInput.email, this.userInput.password)
+						.then((res) => {
+							console.log(res)
+							debugger
+							this.$router.push('/')
+							const name = this.userInput.name
+							addUser({uid:res.user.uid, name, email: res.user.email})
+						})
 
-		}
-	},
+						.catch((error) => {
+							var errorCode = error.code;
+							var errorMessage = error.message;
+						});
+		},
 
+	}
 };
 </script>
 

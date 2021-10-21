@@ -1,10 +1,12 @@
 <template>
-
+<MoviesGenreTable :userItems="false"/>
 </template>
 
 <script>
-export default {
-	name: "MovieByGenre"
+import MoviesGenreTable from "@/components/MoviesGenreTable";
+export default {    //todo
+	name: "MovieByGenre",
+	components: {MoviesGenreTable}
 }
 </script>
 
