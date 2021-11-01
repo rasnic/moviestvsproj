@@ -11,7 +11,7 @@ import MyItems from "@/views/MyItems";
 import Item from "@/views/Item";
 import UserPage from "@/views/UserPage";
 import MovieByGenre from "@/views/MovieByGenre";
-
+import AllType from "@/views/AllType";
 Vue.use(VueRouter);
 
 const routes = [
@@ -75,7 +75,12 @@ const routes = [
     component: Item,
     meta: {authNotRequired: false}
   },
-
+  {
+    path: '/:type/',
+    name: 'AllType',
+    component: AllType,
+    meta: {authNotRequired: false}
+  },
 ];
 
 const router = new VueRouter({

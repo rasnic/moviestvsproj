@@ -1,5 +1,8 @@
 <template>
   <div class="q-pa-md">
+	  <div id="movies">
+		  <input type="text" id="movieSearch" placeholder="חפש סרט" size="14" v-on:keypress="filteredSearch(this.value)"/>
+	  </div>
     <q-table
         title="סרטים"
         :data="movies"
@@ -28,7 +31,7 @@
   </div>
 </template>
 <script>
-import { mapState, mapActions, mapMutations} from 'vuex'
+import { mapState, mapActions, mapMutations, mapGetters} from 'vuex'
 
 
 export default {
@@ -53,7 +56,13 @@ export default {
   methods: {
     ...mapActions('movies',['deleteMovie','getMovies','setEditMovieById']),
     ...mapMutations('movies',['setEditedMovieId']),
+	  ...mapGetters('movies',['filterMovies']),
 	  ...mapMutations('movie',['setShowedMovieId','setMovie']),
+	  filteredSearch(search) {
+		  console.log(search)
+			debugger
+		  return this.movies = this.filterMovies(search)
+	  },
     goToItem(id) {
 	    this.setShowedMovieId(id);
 	    this.setMovie();
@@ -63,13 +72,13 @@ export default {
       this.setEditedMovieId(id);
       this.setEditMovieById();
       this.deleteMovie();
-    }
+    },
   },
   created() {
     this.getMovies();
   },
 
-};
+}
 </script>
 
 <style scoped>
