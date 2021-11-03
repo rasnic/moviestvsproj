@@ -2,9 +2,15 @@ import database from "../../middleware/firebase/database";
 
 
 export default {
+    getTVshow: async ({state, commit}) => {
+        const tvShow = await database.getItem({entity: 'tvShows', id: state.showedTVId});
+        commit('setTVshow', tvShow)
+        return tvShow
+    },
     getTVshows: async ({commit}) => {
         const tvShows = await database.get({entity: 'tvShows'});
         commit('setTVshows', tvShows)
+        return tvShows
     },
     deleteTVshow: async ({state, commit}) => {
         await database.remove({entity: 'tvShows', id: state.editedTVshowId});

@@ -1,5 +1,9 @@
 export default {
 
+    setMovie: ((state, movie) => state.showedMovie = movie),
+
+    setShowedMovieId: ((state, id) => state.showedMovieId = id),
+
     setMovies: ((state, movies) => state.movies = movies),
 
     setEditedMovieId: ((state, id) => state.editedMovieId = id),
@@ -10,13 +14,13 @@ export default {
 
     resetEditedMovie: ((state) => {
             state.editedMovie ={
-                name: '',
+                title: '',
                 id: '',
-                releaseDate: '',
-                movieLength: '',
+                release_date: '',
+                runtime: '',
                 languages: [],
                 trailer: '',
-                ranking: '',
+                vote_average: '',
                 genres: [],
                 overview:'',
                 picture: ''

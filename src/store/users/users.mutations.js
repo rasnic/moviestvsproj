@@ -1,7 +1,7 @@
 export default {
-    setUserMovies: ((state, movies) => state.movies = movies),
+    setUserMovies: ((state, movies) => state.userMovies = movies),
 
-    setUserTVshows: ((state, tvShows) => state.tvShows = tvShows),
+    setUserTVshows: ((state, tvShows) => state.userTvShows = tvShows),
 
     setMoviesPics: ((state, pics) => state.moviePics = pics),
 

@@ -3,10 +3,10 @@
     <AddTVshows/>
     <AddMovies/>
 	  <div>
-		  <TVshowsTableViewer />
+		  <TVshowsTableViewer :admin="true"/>
 	  </div>
 	  <div>
-		  <MoviesTableViewer />
+		  <MoviesTableViewer :admin="true"/>
 	  </div>
   </div>
 </template>

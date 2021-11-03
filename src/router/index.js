@@ -6,12 +6,12 @@ import EmailLogin from '@/views/EmailLogin';
 import Registration from '@/views/Registration';
 import fireBaseInstance from "@/middleware/firebase";
 import Admin from "@/views/Admin";
-import TVByGenre from "@/views/TVByGenre";
-import MyItems from "@/views/MyItems";
 import Item from "@/views/Item";
-import UserPage from "@/views/UserPage";
-import MovieByGenre from "@/views/MovieByGenre";
-import AllType from "@/views/AllType";
+import UserItems from "@/views/UserItems";
+import AllItems from "@/views/AllItems";
+import TVshowTableViewer from "@/components/TVshowTableViewer";
+import MoviesTableViewer from "@/components/MoviesTableViewer";
+import UserAcc from "@/views/UserAcc";
 Vue.use(VueRouter);
 
 const routes = [
@@ -46,27 +46,27 @@ const routes = [
     meta: {authNotRequired: false}
   },
   {
-    path: '/userPage',
-    name: 'UserPage',
-    component: UserPage,
+    path: '/user/home/:user',
+    name: 'UserAcc',
+    component: UserAcc,
     meta: {authNotRequired: false}
   },
   {
-    path: '/tvShows/:genre',
-    name: 'TVByGenre',
-    component: TVByGenre,
+    path: `/tvShows/:genre`,
+    name: 'TVshowByGenre',
+    component: TVshowTableViewer,
     meta: {authNotRequired: false}
   },
   {
     path: '/movies/:genre',
     name: 'MovieByGenre',
-    component: MovieByGenre,
+    component: MoviesTableViewer,
     meta: {authNotRequired: false}
   },
   {
-    path: '/:type/user/:userId',
-    name: 'MyItems',
-    component: MyItems,
+    path: '/user/:userId/:type',
+    name: 'UserItems',
+    component: UserItems,
     meta: {authNotRequired: false}
   },
   {
@@ -77,8 +77,8 @@ const routes = [
   },
   {
     path: '/:type/',
-    name: 'AllType',
-    component: AllType,
+    name: 'AllItems',
+    component: AllItems,
     meta: {authNotRequired: false}
   },
 ];

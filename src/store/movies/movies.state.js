@@ -2,15 +2,28 @@ export default {
     movies:[],
     editedMovieId: '',
     editedMovie: {
-        name: '',
+        title: '',
         id:'',
-        releaseDate: '',
-        movieLength: '',
+        release_date: '',
+        runtime: '',
         languages: '',
-        ranking: '',
+        vote_average: '',
         trailer: '',
         overview:'',
         genres: '',
         picture: ''
+    },
+    showedMovieId: '',
+    showedMovie: {
+        title: '',
+        id: '',
+        release_date: '',
+        runtime: '',
+        languages: '',
+        trailer: '',
+        vote_average: '',
+        genres: '',
+        picture: '',
+        overview: ''
     }
 }

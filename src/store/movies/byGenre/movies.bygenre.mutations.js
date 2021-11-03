@@ -1,13 +1,13 @@
 export default {
     resetEditedMovie: ((state) => {
         state.editedMovie ={
-            name: '',
+            title: '',
             id: '',
-            releaseDate: '',
-            movieLength: '',
+            release_date: '',
+            runtime: '',
             languages: [],
             trailer: '',
-            ranking: '',
+            vote_average: '',
             genres: [],
             overview:'',
             picture: ''
@@ -20,7 +20,6 @@ export default {
     setEditedMovieByGenre: ((state, movie) => state.editedMovie = movie),
 
     insertMovieByGenre: ((state, [movie, genre])=>{
-        debugger
         if(!state.movies[genre]){
             state.movies[genre] = [];
         }

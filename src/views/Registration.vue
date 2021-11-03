@@ -30,7 +30,6 @@ export default {
 				firebaseInstance.firebase.auth().createUserWithEmailAndPassword(this.userInput.email, this.userInput.password)
 						.then((res) => {
 							console.log(res)
-							debugger
 							this.$router.push('/')
 							const name = this.userInput.name
 							addUser({uid:res.user.uid, name, email: res.user.email})

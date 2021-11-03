@@ -28,12 +28,12 @@ export default {
 	    editedItem: {
 		    name: '',
 		    id: '',
-		    releaseDate: '',
-		    seasons: '',
-		    episodes: '',
-		    episodeLength: '',
+		    first_air_date: '',
+		    number_of_seasons: '',
+		    number_of_episodes: '',
+		    episode_run_time: '',
 		    languages: '',
-		    ranking: '',
+		    vote_average: '',
 		    trailer: '',
 		    genres: '',
 		    overview:'',
@@ -54,26 +54,31 @@ export default {
 		  api.getItems({pageNumber: this.pageNumber, entity: 'tv'})
 				  .then(tvShows => {
 					  Object.assign(this.items, tvShows.results)
-				  })
-				  .then(() => {
 					  this.setTVshow(this.items)
 				  })
 	  },
 	  async setTVshow(tvShows){
+		  let drop = []
 		  for (let i = 0; i < this.items.length; i++) {
 			  await api.getItem({id: tvShows[i].id, entity: 'tv'})
-			  .then(item =>{
-					this.editedItem.name = item.name
-				  this.editedItem.releaseDate = item.first_air_date;
-				  this.editedItem.seasons = item.number_of_seasons;
-				  this.editedItem.episodes = item.number_of_episodes;
-				  this.editedItem.episodeLength = item.episode_run_time.toString();
-				  this.editedItem.id = item.id;
-					this.editedItem.overview = item.overview;
+			  .then(async item =>{
+				  for (const key in this.editedItem) {
+					  if (key !== 'languages' && key !== 'genres' && key !== 'picture' && key !== 'trailer' && key !== 'episode_run_time'){
+						  this.editedItem[key] = item[key]
+					  }
+				  }
+				  this.editedItem.episode_run_time = item.episode_run_time.toString();
+					if (!item.overview){
+						this.editedItem.overview = await api.getEnOverview({id: tvShows[i].id, entity: 'tv'})
+					}
+					else {
+						this.editedItem.overview = item.overview;
+					}
 				  let genres = [];
 				  for (let j = 0; j < item.genres.length; j++) {
 					  genres.push(item.genres[j].name)
 				  }
+
 				  this.editedItem.genres = genres;
 
 				  let languages = [];
@@ -81,37 +86,41 @@ export default {
 					  languages.push(item.spoken_languages[j].english_name)
 				  }
 				  this.editedItem.languages = languages.toString();
-					this.editedItem.ranking = item.vote_average;
+				  this.editedItem.trailer = await api.getTrailer({entity: 'tv', id: item.id});
+				  this.editedItem.picture = await api.getPicture({entity: 'tv', id: item.id});
+				  if(!this.editedItem.overview || !this.editedItem.picture || !this.editedItem.trailer || !this.editedItem.languages || genres.length === 0){
+						debugger
+					  drop.push(i)
+				  }
+				  else {
+					  this.items.splice(i, 1, this.editedItem);
+				  }
+						this.editedItem = {
+							name: '',
+							id: '',
+							first_air_date: '',
+							number_of_seasons: '',
+							number_of_episodes: '',
+							episode_run_time: '',
+							languages: '',
+							vote_average: '',
+							trailer: '',
+							genres: '',
+							overview:'',
+							picture:''
+						}
 
-				  api.getTrailer({entity: 'tv', id: item.id});
-				  api.getPicture({entity: 'tv', id: item.id});
-				  this.items.splice(i, 1, this.editedItem);
-
-					this.editedItem = {
-						name: '',
-						id: '',
-						releaseDate: '',
-						seasons: '',
-						episodes: '',
-						episodeLength: '',
-						languages: '',
-						ranking: '',
-						trailer: '',
-						genres: '',
-						overview:'',
-						picture:''
-					}
 			  })
 		  }
+		  for (let k = drop.length-1; k > -1 ; k--) {
+			  this.items.splice(drop[k],1)
+		  }
 		  for (let i = 0; i < this.items.length; i++) {
-			  this.items[i].picture = api.pictures[i]
-			  this.items[i].trailer = api.trailers[i]
 			  this.setEditedTVshowId(this.items[i].id);
 			  this.setEditedTVshow(this.items[i]);
 			  await this.insertTVshow()
 		  }
 			  for (let j = 0; j < this.items.length; j++) {
-				  debugger
 				  await this.setEditedTVshowIdByGenre(this.items[j].id);
 				  await this.setEditedTVshowByGenre(this.items[j]);
 				  await this.insertTVshowByGenre()

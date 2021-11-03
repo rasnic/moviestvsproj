@@ -1,5 +1,9 @@
 export default {
 
+    setTVshow: ((state, tvShow) => state.showedTV = tvShow),
+
+    setShowedTVshowId: ((state, id) => state.showedTVId = id),
+
     setTVshows: ((state, tvShows) => state.tvShows = tvShows),
 
     setEditedTVshowId: ((state, id) => state.editedTVshowId = id),
@@ -12,12 +16,12 @@ export default {
             state.editedTVshow = {
                 name: '',
                 id: '',
-                releaseDate: '',
-                seasons: '',
-                episodes: '',
-                episodeLength: '',
+                first_air_date: '',
+                number_of_seasons: '',
+                number_of_episodes: '',
+                episode_run_time: '',
                 languages: '',
-                ranking: '',
+                vote_average: '',
                 trailer: '',
                 overview: '',
                 genres: '',

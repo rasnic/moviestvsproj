@@ -1,9 +1,10 @@
 import database from "@/middleware/firebase/database";
 
 export default {
-    getTVshows: async ({commit},genre) => {
+    getTVshowsByGenre: async ({commit},genre) => {
         const tvShows = await database.getGenre({entity: 'tvShows', genre:genre});
         commit('setTVshowsByGenre', tvShows)
+        return tvShows
     },
     insertTVshowByGenre: async ({state, commit}) => {
         const tvShow = {}

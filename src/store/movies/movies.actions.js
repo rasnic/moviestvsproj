@@ -3,8 +3,9 @@ import database from "../../middleware/firebase/database";
 
 export default {
     getMovies: async ({commit}) => {
-        const movies = await database.get({entity: 'movies'});
+        let movies = await database.get({entity: 'movies'});
         commit('setMovies', movies)
+        return movies
     },
     deleteMovie: async ({state, commit}) => {
         await database.remove({entity: 'movies', id: state.editedMovieId});
@@ -39,6 +40,11 @@ export default {
             movie = await database.getItem({entity: 'movies', id: state.editedMovieId})
         }
         commit('setEditedMovie', movie)
+    },
+    getMovie: async ({state, commit}) => {
+        const movie = await database.getItem({entity: 'movies', id: state.showedMovieId});
+        commit('setMovie', movie)
+    return movie
     },
 
 }

@@ -53,17 +53,17 @@
 				<q-separator color="black"/>
 				<q-item-label header align="center" overline>סרטים</q-item-label>
 				<q-separator/>
+				<q-item clickable tag="a" @click="items('movies')">
+					<q-item-section>
+						<q-item-label align="center">כל הסרטים</q-item-label>
+					</q-item-section>
+				</q-item>
 				<q-item clickable tag="a" @click="myItems('movies')">
 					<q-item-section>
 						<q-item-label align="center">הסרטים שלי</q-item-label>
 					</q-item-section>
 				</q-item>
 
-				<q-item clickable tag="a" @click="items('movies')">
-					<q-item-section>
-						<q-item-label align="center">סרטים</q-item-label>
-					</q-item-section>
-				</q-item>
 
 				<q-expansion-item clickable tag="a" align="center" label="לפי ז'אנר">
 
@@ -205,6 +205,11 @@
 				<q-separator color="black"/>
 				<q-item-label header align="center" overline>סדרות</q-item-label>
 				<q-separator/>
+				<q-item clickable tag="a" @click="items('tvShows')">
+					<q-item-section>
+						<q-item-label align="center">כל הסדרות</q-item-label>
+					</q-item-section>
+				</q-item>
 				<q-item clickable tag="a" @click="myItems('tvShows')">
 					<q-item-section>
 						<q-item-label align="center">הסדרות שלי</q-item-label>
@@ -337,7 +342,7 @@
 </template>
 
 <script>
-import Logout from "@/views/Logout";
+import Logout from "@/components/Logout";
 import Login from "@/views/Login";
 import {getUserName} from "@/middleware/firebase/database";
 
@@ -357,7 +362,7 @@ export default {
 			location.reload()
 		},
 		myPage() {
-			this.$router.push('/userPage')
+			this.$router.push(`/user/${this.userN}`)
 			location.reload()
 		},
 		disconnect() {
@@ -369,8 +374,7 @@ export default {
 	this.$router.push(`/${type}`)
 		},
 		myItems(type) {
-			debugger
-			this.$router.push(`/${type}/user/${this.userN}`)
+			this.$router.push(`/user/${this.userN}/${type}`)
 			location.reload()
 		},
 

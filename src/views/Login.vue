@@ -57,7 +57,7 @@ export default {
 						// The signed-in users info.
 						window.user = result.user;
 
-						if (window.user.uid === "55mBkKiLa8VT06VsM2XgXzlmdei2") {
+						if (window.user.uid === "dsm7CKcNRxQ7MZZOjCfEmSORt653") {
 							this.loggedin();
 							this.$router.push('/admin')
 							location.reload()
@@ -87,7 +87,6 @@ export default {
 		},
 		async loggedin() {
 			this.connected = !this.connected
-			debugger
 			await addUser({uid:window.user.uid, name:window.user.displayName, email: window.user.email})
 		}
 	},

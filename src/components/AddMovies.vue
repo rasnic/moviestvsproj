@@ -25,13 +25,13 @@ export default {
 			pageNumber: '',
 			items: [],
 			editedItem: {
-				name: '',
+				title: '',
 				id: '',
-				releaseDate: '',
-				movieLength: '',
+				release_date: '',
+				runtime: '',
 				languages: '',
 				trailer: '',
-				ranking: '',
+				vote_average: '',
 				genres: '',
 				picture: '',
 				overview:''
@@ -51,54 +51,61 @@ export default {
 			api.getItems({pageNumber: this.pageNumber, entity: 'movie'})
 					.then(movies => {
 						Object.assign(this.items, movies.results)
-					})
-					.then(() => {
 						this.setMovie(this.items)
 					})
 		},
 		async setMovie(movies) {
+			let drop = []
 			for (let i = 0; i < this.items.length; i++) {
 				await api.getItem({id: movies[i].id, entity: 'movie'})
-						.then(item => {
-							this.editedItem.name = item.title;
-							this.editedItem.releaseDate = item.release_date;
-							this.editedItem.movieLength = item.runtime;
+						.then(async item => {
+							for (const key in this.editedItem) {
+								if (key !== 'languages' && key !== 'genres' && key !== 'picture' && key !== 'trailer'){
+									this.editedItem[key] = item[key]
+								}
+							}
 							let languages = [];
 							for (let j = 0; j < item.spoken_languages.length; j++) {
 								languages.push(item.spoken_languages[j].english_name)
 							}
 							this.editedItem.languages = languages.toString();
-
-							this.editedItem.ranking = item.vote_average;
 							let genres = [];
 							for (let j = 0; j < item.genres.length; j++) {
 								genres.push(item.genres[j].name)
 							}
 							this.editedItem.genres = genres;
-							this.editedItem.overview = item.overview
-							this.editedItem.id = item.id;
-
-							api.getTrailer({entity: 'movie', id: item.id});
-							api.getPicture({entity: 'movie', id: item.id});
-							this.items.splice(i, 1, this.editedItem)
-
+							if (!item.overview){
+								this.editedItem.overview = await api.getEnOverview({id: movies[i].id, entity: 'tv'})
+							}
+							else {
+								this.editedItem.overview = item.overview
+							}
+							this.editedItem.trailer = await api.getTrailer({entity: 'movie', id: item.id});
+							this.editedItem.picture = await api.getPicture({entity: 'movie', id: item.id});
+							if(!this.editedItem.overview || !this.editedItem.picture || !this.editedItem.trailer || !this.editedItem.languages || genres === []){
+								drop.push(i)
+							}
+							else{
+								this.items.splice(i, 1, this.editedItem)
+							}
 							this.editedItem = {
-								name: '',
+								title: '',
 								id: '',
-								releaseDate: '',
-								movieLength: '',
+								release_date: '',
+								runtime: '',
 								languages: '',
 								trailer: '',
-								ranking: '',
+								vote_average: '',
 								genres: '',
 								picture: '',
 								overview: ''
 							}
 						})
 			}
+			for (let k = drop.length-1; k > -1 ; k--) {
+				this.items.splice(drop[k],1)
+			}
 			for (let i = 0; i < this.items.length; i++) {
-				this.items[i].picture = api.pictures[i]
-				this.items[i].trailer = api.trailers[i]
 				await this.setEditedMovieId(this.items[i].id);
 				await this.setEditedMovie(this.items[i]);
 					await this.insertMovie()

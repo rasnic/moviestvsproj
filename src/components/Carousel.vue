@@ -59,7 +59,6 @@ export default {
 		...mapActions('users', ['getMoviesPicture', 'getTVsPicture']),
 	},
 	async created() {
-		debugger
 		await this.getMoviesPicture()
 		await this.getTVsPicture()
 		for (let i = 0; i < this.moviePics.length; i++) {

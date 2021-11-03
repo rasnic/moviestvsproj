@@ -1,9 +1,10 @@
 import database from "@/middleware/firebase/database";
 
 export default {
-    getMovies: async ({commit}, genre) => {
+    getMoviesByGenre: async ({commit}, genre) => {
         const movies = await database.getGenre({entity: 'movies', genre:genre});
         commit('setMoviesByGenre', movies)
+        return movies
     },
     insertMovieByGenre: async ({state, commit}) => {
         const movie = {}

@@ -1,14 +1,30 @@
 import database from "../../middleware/firebase/database";
 
 export default {
-    getMyMovies: async ({commit}) => {
-        debugger
-        const movies = await database.getUserItems({entity: 'movies', uid: window.user.uid});
-        commit('setUserMovies', movies)
+    addToList: async ({commit},[id,type]) =>{
+       await database.insertToList({entity: type, id});
     },
-    getMyTVshows: async ({commit}) => {
-        const tvShows = await database.getUserItems({entity: 'tvShows', uid: window.user.uid});
-        commit('setUserTVshows', tvShows)
+    deleteFromList: async ({commit},[id,type]) =>{
+        if (type === 'movies') {
+            const movies = await database.deleteFromListDb({entity: type, id})
+            commit('setUserMovies', movies)
+        }
+        else{
+            const tvShows = await database.deleteFromListDb({entity: type, id})
+            commit('setUserTVshows', tvShows)
+        }
+    },
+    getMyItems: async ({commit},type) => {
+        if (type === 'movies') {
+            const movies = await database.getUserItems({entity: type, uid: window.user.uid});
+            commit('setUserMovies', movies)
+            return movies
+        }
+        else {
+            const tvShows = await database.getUserItems({entity: type, uid: window.user.uid});
+            commit('setUserTVshows', tvShows)
+            return tvShows
+        }
     },
     getMoviesPicture: async ({commit}) =>{
         const moviePics =  await database.getPics({entity: 'movies'});
