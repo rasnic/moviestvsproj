@@ -3,10 +3,10 @@
     <AddTVshows/>
     <AddMovies/>
 	  <div>
-		  <TVshowsTableViewer :admin="true"/>
+		  <TVshowsTableViewer :admin="true" />
 	  </div>
 	  <div>
-		  <MoviesTableViewer :admin="true"/>
+		  <MoviesTableViewer :admin="true" />
 	  </div>
   </div>
 </template>
@@ -26,3 +26,12 @@ export default {
   },
 };
 </script>
+<style>
+html, body{
+min-height:100%;
+overflow:auto;
+}
+body {
+background-color: #1e1e1e;
+}
+</style>

@@ -1,14 +1,26 @@
 <template>
-	<div class="home">
-<Carousel/>
-	</div>
+	<body>
+<div class="home">
+	<HomeView/>
+</div>
+	</body>
 </template>
 
 <script>
 
-import Carousel from "@/components/Carousel";
+import HomeView from "@/components/HomeView";
 export default {
 	name: 'Home',
-	components: {Carousel},
+	components: {HomeView},
+
 }
 </script>
+<style>
+html, body{
+	min-height:100%;
+	overflow:auto;
+}
+body {
+	background-color: #1e1e1e;
+}
+</style>

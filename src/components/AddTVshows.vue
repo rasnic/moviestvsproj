@@ -89,7 +89,6 @@ export default {
 				  this.editedItem.trailer = await api.getTrailer({entity: 'tv', id: item.id});
 				  this.editedItem.picture = await api.getPicture({entity: 'tv', id: item.id});
 				  if(!this.editedItem.overview || !this.editedItem.picture || !this.editedItem.trailer || !this.editedItem.languages || genres.length === 0){
-						debugger
 					  drop.push(i)
 				  }
 				  else {

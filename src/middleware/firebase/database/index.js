@@ -4,29 +4,32 @@ import database from 'firebase/database';
 function get(options) {
     return firebaseInstance.firebase.database().ref(`admin/db/${options.entity}`).once('value')
         .then(res => {
-            const arr = [];
-            const map = res.val();
-            for (const key in map) {
-                const item = map[key];
-                item.id = key;
-                arr.push(item);
-            }
-            return arr;
+            return setItems(res);
         });
 }
 
 function getGenre(options) {
     return firebaseInstance.firebase.database().ref(`admin/db/${options.entity}/genres/${options.genre}`).once('value')
         .then(res => {
-            const arr = [];
-            const map = res.val();
-            for (const key in map) {
-                const item = map[key];
-                item.id = key;
-                arr.push(item);
-            }
-            return arr;
+            return setItems(res);
         })
+}
+function setItems(res, user = undefined) {
+    const arr = [];
+    const map = res.val();
+    delete map.genres
+    for (const key in map) {
+        const item = map[key];
+        item.id = key;
+        const genres = item['genres'].toString()
+        item['genres'] = undefined
+        item['genres'] = genres
+        arr.push(item);
+    }
+    if (!user) {
+        arr.pop()
+    }
+    return arr
 }
 
 function create(options) {
@@ -77,15 +80,8 @@ export async function getUserName(options) {
 
 async function getUserItems(options) {
     return await firebaseInstance.firebase.database().ref(`users/${options.uid}/${options.entity}`).once('value')
-        .then(res => {
-            const arr = [];
-            const map = res.val();
-            for (const key in map) {
-                const item = map[key];
-                item.id = key;
-                arr.push(item);
-            }
-            return arr;
+        .then( res => {
+        return setItems(res, true)
         })
 }
 
@@ -100,7 +96,14 @@ async function getPics(options) {
             })
 }
 async function deleteFromListDb(options){
-    return firebaseInstance.firebase.database().ref(`users/${window.user.uid}/${options.entity}/${options.id}`).remove()
+    return await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/${options.entity}/${options.id}`).remove()
+}
+
+async function checkList(options) {
+    if ((await firebaseInstance.firebase.database().ref(`users/${window.user.uid}/${options.entity}/${options.id}`).once('value')).val() !== null){
+        return true
+    }
+    return false
 }
 export default {
     get,
@@ -114,5 +117,6 @@ export default {
     getUserItems,
     getPics,
     insertToList,
-    deleteFromListDb
+    deleteFromListDb,
+    checkList
 };

@@ -1,5 +1,5 @@
-<template>
-	<q-layout view="lHh Lpr lFf">
+<template >
+	<q-layout view="lHh Lpr lFf" >
 		<q-header elevated class="glossy">
 			<q-toolbar>
 				<q-btn v-if="userN !== 'DISCONNECTED'"
@@ -44,6 +44,12 @@
 					</q-item-section>
 				</q-item>
 
+				<q-item clickable tag="a" @click="recommendations">
+					<q-item-section>
+						<q-item-label align="center">סרטים וסדרות מומלצים</q-item-label>
+					</q-item-section>
+				</q-item>
+
 				<q-item clickable tag="a" @click="disconnect">
 					<q-item-section>
 						<q-item-label align="center">התנתק</q-item-label>
@@ -64,141 +70,15 @@
 					</q-item-section>
 				</q-item>
 
-
 				<q-expansion-item clickable tag="a" align="center" label="לפי ז'אנר">
-
-					<q-item clickable tag="a" genre="קומדיה" @click="byGenre('movies','קומדיה')">
+<li v-for="genreName in this.movieGenresList" style="list-style-type: none">
+					<q-item clickable tag="a" :genre="genreName" @click="byGenre('movies',`${genreName}`)">
 						<q-item-section>
-							<q-item-label align="center">קומדיה</q-item-label>
+							<q-item-label align="center">{{genreName}}</q-item-label>
 						</q-item-section>
 					</q-item>
 					<q-separator/>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="אקשן" @click="byGenre('movies','אקשן')">
-						<q-item-section>
-							<q-item-label align="center">אקשן</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="הרפתקאות" @click="byGenre('movies','הרפתקאות')">
-						<q-item-section>
-							<q-item-label align="center">הרפתקאות</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="אנימציה" @click="byGenre('movies','אנימציה')">
-						<q-item-section>
-							<q-item-label align="center">אנימציה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="פשע" @click="byGenre('movies','פשע')">
-						<q-item-section>
-							<q-item-label align="center">פשע</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="דוקומנטרי" @click="byGenre('movies','דוקומנטרי')">
-						<q-item-section>
-							<q-item-label align="center">דוקומנטרי</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="דרמה" @click="byGenre('movies','דרמה')">
-						<q-item-section>
-							<q-item-label align="center">דרמה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="משפחה" @click="byGenre('movies','משפחה')">
-						<q-item-section>
-							<q-item-label align="center">משפחה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="פנטזיה" @click="byGenre('movies','פנטזיה')">
-						<q-item-section>
-							<q-item-label align="center">פנטזיה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="הסטוריה" @click="byGenre('movies','הסטוריה')">
-						<q-item-section>
-							<q-item-label align="center">הסטוריה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="אימה" @click="byGenre('movies','אימה')">
-						<q-item-section>
-							<q-item-label align="center">אימה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מוסיקה" @click="byGenre('movies','מוסיקה')">
-						<q-item-section>
-							<q-item-label align="center">מוסיקה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מסתורין" @click="byGenre('movies','מסתורין')">
-						<q-item-section>
-							<q-item-label align="center">מסתורין</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="רומנטי" @click="byGenre('movies','רומנטי')">
-						<q-item-section>
-							<q-item-label align="center">רומנטי</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מדע בדיוני" @click="byGenre('movies','מדע בדיוני')">
-						<q-item-section>
-							<q-item-label align="center">מדע בדיוני</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="סרט טלויזיה" @click="byGenre('movies','סרט טלויזיה')">
-						<q-item-section>
-							<q-item-label align="center">סרט טלויזיה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מותחן" @click="byGenre('movies','מותחן')">
-						<q-item-section>
-							<q-item-label align="center">מותחן</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מלחמה" @click="byGenre('movies','מלחמה')">
-						<q-item-section>
-							<q-item-label align="center">מלחמה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מערכון" @click="byGenre('movies','מערכון')">
-						<q-item-section>
-							<q-item-label align="center">מערכון</q-item-label>
-						</q-item-section>
-					</q-item>
+</li>
 				</q-expansion-item>
 
 
@@ -219,123 +99,19 @@
 
 				<q-expansion-item clickable tag="a" align="center" label="לפי ז'אנר">
 
-					<q-separator/>
-					<q-item clickable tag="a" genre="אקשן והרפתקאות" @click="byGenre('tvShows','אקשן והרפתקאות')">
-						<q-item-section>
-							<q-item-label align="center">אקשן והרפתקאות</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="אנימציה" @click="byGenre('tvShows','אנימציה')">
-						<q-item-section>
-							<q-item-label align="center">אנימציה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="קומדיה" @click="byGenre('tvShows','קומדיה')">
-						<q-item-section>
-							<q-item-label align="center">קומדיה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="פשע" @click="byGenre('tvShows','פשע')">
-						<q-item-section>
-							<q-item-label align="center">פשע</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="דוקומנטרי" @click="byGenre('tvShows','דוקומנטרי')">
-						<q-item-section>
-							<q-item-label align="center">דוקומנטרי</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="דרמה" @click="byGenre('tvShows','דרמה')">
-						<q-item-section>
-							<q-item-label align="center">דרמה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="משפחה" @click="byGenre('tvShows','משפחה')">
-						<q-item-section>
-							<q-item-label align="center">משפחה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="ילדים" @click="byGenre('tvShows','ילדים')">
-						<q-item-section>
-							<q-item-label align="center">ילדים</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מסתורין" @click="byGenre('tvShows','מסתורין')">
-						<q-item-section>
-							<q-item-label align="center">מסתורין</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="חדשות" @click="byGenre('tvShows','חדשות')">
-						<q-item-section>
-							<q-item-label align="center">חדשות</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="ריאליטי" @click="byGenre('tvShows','ריאליטי')">
-						<q-item-section>
-							<q-item-label align="center">ריאליטי</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מדע בדיוני ופנטזיה" @click="byGenre('tvShows','מדע בדיוני ופנטזיה')">
-						<q-item-section>
-							<q-item-label align="center">מדע בדיוני ופנטזיה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="סבון" @click="byGenre('tvShows','סבון')">
-						<q-item-section>
-							<q-item-label align="center">סבון</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="דיבורים" @click="byGenre('tvShows','דיבורים')">
-						<q-item-section>
-							<q-item-label align="center">דיבורים</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מלחמה ופוליטיקה" @click="byGenre('tvShows','מלחמה ופוליטיקה')">
-						<q-item-section>
-							<q-item-label align="center">מלחמה ופוליטיקה</q-item-label>
-						</q-item-section>
-					</q-item>
-
-					<q-separator/>
-					<q-item clickable tag="a" genre="מערכון" @click="byGenre('tvShows','מערכון')">
-						<q-item-section>
-							<q-item-label align="center">מערכון</q-item-label>
-						</q-item-section>
-					</q-item>
-
+						<li v-for="genreName in this.tvGenresList" style="list-style-type: none">
+							<q-item clickable tag="a" :genre="genreName" @click="byGenre('tvShows',`${genreName}`)">
+								<q-item-section>
+									<q-item-label align="center">{{genreName}}</q-item-label>
+								</q-item-section>
+							</q-item>
+							<q-separator/>
+						</li>
 				</q-expansion-item>
 				<q-separator color="black"/>
 			</q-list>
 		</q-drawer>
-		<q-page-container>
+		<q-page-container >
 			<router-view></router-view>
 		</q-page-container>
 	</q-layout>
@@ -346,6 +122,7 @@ import Logout from "@/components/Logout";
 import Login from "@/views/Login";
 import {getUserName} from "@/middleware/firebase/database";
 
+
 export default {
 	name: 'LayoutDefault',
 	components: {Login},
@@ -353,7 +130,11 @@ export default {
 		return {
 			userN: 'DISCONNECTED',
 			loggedIn: false,
-			leftDrawerOpen: this.$q.platform.is.desktop
+			leftDrawerOpen: this.$q.platform.is.desktop,
+			movieGenresList : ["קומדיה","אקשן","הרפתקאות","אנימציה","פשע","דוקומנטרי","דרמה","משפחה","פנטזיה"
+				,"הסטוריה","אימה","מוסיקה","מסתורין","רומנטי","מדע בדיוני","סרט טלויזיה","מותחן","מלחמה","מערכון"],
+			tvGenresList : ["אקשן והרפתקאות","אנימציה","קומדיה","פשע","דוקומנטרי","דרמה","משפחה","ילדים","מסתורין"
+				,"חדשות","ריאליטי","מדע בדיוני ופנטזיה","סבון","דיבורים","מלחמה ופוליטיקה","מערכון"]
 		}
 	},
 	methods: {
@@ -369,9 +150,11 @@ export default {
 			this.$router.push('/')
 			Logout.methods.logout();
 			this.userN = 'DISCONNECTED'
+			location.reload()
 		},
 		items(type) {
 	this.$router.push(`/${type}`)
+			location.reload()
 		},
 		myItems(type) {
 			this.$router.push(`/user/${this.userN}/${type}`)
@@ -380,6 +163,10 @@ export default {
 
 		byGenre(type, genre) {
 			this.$router.push(`/${type}/${genre}`)
+			location.reload()
+		},
+		recommendations(){
+			this.$router.push('/recommendations')
 			location.reload()
 		}
 	},
@@ -397,4 +184,5 @@ export default {
 </script>
 
 <style>
+
 </style>

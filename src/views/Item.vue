@@ -1,40 +1,45 @@
-<template dir="rtl">
-	<div class="q-pa-md row-lg items-lg-start q-gutter-lg" >
-		<q-card dark bordered class="tv show" v-if="this.$route.params.type === 'tvShow'"
-		        style="background:black">
-			<q-card-section>
-				<h4 align="center">{{ this.showedItem.name }}</h4>
-				<h6 align="right">תאריך יציאה: {{ this.showedItem.first_air_date }}</h6>
-				<q-img v-if="this.pictureTV !== 'empty'" align="left" :src="this.pictureTV" style="height: 300px; max-width: 300px"></q-img>
-				<h6 align="right">מספר עונות: {{ this.showedItem.number_of_seasons }}</h6>
-				<h6 align="right">מספר פרקים: {{ this.showedItem.number_of_episodes }}</h6>
-				<h6 align="right">אורכי פרקים: {{ this.showedItem.episode_run_time }}</h6>
-				<h6 align="right"> {{ this.showedItem.languages }}:שפות</h6>
-				<h6 align="right"> {{ this.showedItem.vote_average }}:דירוג</h6>
-				<h6 align="right">ז'אנרים: {{ this.showedItem.genres.toString() }}</h6>
-				<h6 align="right"> תקציר: {{ this.showedItem.overview }}</h6>
-				<q-video  v-if="this.trailerTV !== 'empty'" :src="this.trailerTV"
-				         style="width: 853px; height: 480px"/>
+<template>
+	<body>
+	<div class="container" >
+		<q-card dir="rtl" class="item" v-if="this.$route.params.type === 'tvShow'" >
+			<q-card-section class="item-section" :style="{backgroundImage: `url(${this.pictureTV})`}">
+				<h4><span class="background-span">{{ this.showedLocTV.name }}</span></h4>
+				<q-btn class="add-btn" v-if="!this.inLIst" color="red" icon="add" @click="addItem()"/>
+				<q-btn class="add-btn" v-else color="grey" icon="remove"  @click="deleteItem()"/>
+
+				<h6><span class="background-span"><span class="item-span">תקציר: </span>
+					{{ this.showedLocTV.overview }}
+				</span></h6>
+				<h6><span class="background-span"><span class="item-span">תאריך יציאה: </span>
+					{{ this.showedLocTV.first_air_date }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">מספר עונות: </span>{{ this.showedLocTV.number_of_seasons }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">מספר פרקים: </span>{{ this.showedLocTV.number_of_episodes }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">אורך פרק: </span>{{ this.showedLocTV.episode_run_time }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">שפות: </span>{{ this.showedLocTV.languages }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">דירוג: </span>{{ this.showedLocTV.vote_average }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">ז'אנרים: </span>{{ this.showedLocTV.genres.toString() }}</span></h6>
+				<q-video v-if="this.trailerTV !== 'empty'" :src="this.trailerTV" class="item-video"/>
+
 			</q-card-section>
 		</q-card>
 
-		<q-card dark bordered class="movie"  v-if="this.$route.params.type === 'movie'"
-		        style="background:black">
-			<q-card-section>
-				<h4 align="center">{{ this.showedItem.title }}</h4>
-				<q-img v-if="this.pictureM !== 'empty'" align="left" :src="this.pictureM" style="height: 300px; max-width: 300px"></q-img>
-				<h6 align="right">תאריך יציאה:{{ this.showedItem.release_date }}</h6>
-				<h6 align="right">אורך סרט:{{ this.showedItem.runtime }} דקות</h6>
-				<h6 align="right"> {{ this.showedItem.languages }}:שפות</h6>
-				<h6 align="right"> {{ this.showedItem.vote_average }}:דירוג</h6>
-				<h6 align="right">ז'אנרים:{{this.showedItem.genres.toString() }}</h6>
-				<h6 align="right"> תקציר: {{ this.showedItem.overview }}</h6>
+		<q-card dir="rtl" class="item" v-if="this.$route.params.type === 'movie'" >
+			<q-card-section class="item-section" :style="{backgroundImage: `url(${this.pictureM})`}">
+				<h4 align="center"><span class="background-span">{{ this.showedLocMovie.title }}</span></h4>
+				<q-btn class="add-btn" v-if="!this.inLIst" color="red" icon="add"  @click="addItem()"/>
+				<q-btn class="add-btn" v-else color="grey" icon="remove"  @click="deleteItem()"/>
+				<h6 dir="rtl"><span class="background-span"><span class="item-span">תקציר: </span>{{ this.showedLocMovie.overview }}</span></h6>
+				<h6 align="right"><span class="background-span"><span class="item-span">תאריך יציאה: </span>{{ this.showedLocMovie.release_date }}</span></h6>
+				<h6 align="right"><span class="background-span"><span class="item-span">אורך סרט: </span>{{ this.showedLocMovie.runtime }} דקות</span></h6>
+				<h6 align="right"><span class="background-span"><span class="item-span">שפות: </span>{{ this.showedLocMovie.languages }}</span></h6>
+				<h6 align="right"><span class="background-span"><span class="item-span">דירוג: </span>{{ this.showedLocMovie.vote_average }}</span></h6>
+				<h6 align="right"><span class="background-span"><span class="item-span">ז'אנרים: </span>{{ this.showedLocMovie.genres.toString() }}</span></h6>
+				<q-video class="item-video" v-if="this.trailerM !== 'empty'" :src="this.trailerM"/>
 
-				<q-video v-if="this.trailerM !== 'empty'" :src="this.trailerM"
-				         style="width: 853px; height: 480px"/>
 			</q-card-section>
 		</q-card>
 	</div>
+	</body>
 </template>
 
 <script>
@@ -46,9 +51,12 @@ export default {
 	data() {
 		if (this.$route.params.type === 'tvShow') {
 			return {
+				type: 'tvShows',
 				trailerTV: 'empty',
 				pictureTV: 'empty',
-				showedItem: {
+				inLIst: '',
+				image: {backgroundImage: "url()"},
+				showedLocTV: {
 					name: '',
 					id: '',
 					first_air_date: '',
@@ -63,9 +71,11 @@ export default {
 			}
 		} else {
 			return {
+				type: 'movies',
 				trailerM: 'empty',
 				pictureM: 'empty',
-				showedItem: {
+				inLIst: '',
+				showedLocMovie: {
 					title: '',
 					id: '',
 					release_date: '',
@@ -79,44 +89,112 @@ export default {
 		}
 	},
 	computed: {
-		...mapState('tvShows', ['showedTV']),
-		...mapState('movies', ['showedMovie'])
+		...mapState('tvShows', ['showedTV', 'tvShows']),
+		...mapState('movies', ['showedMovie', 'movies']),
 	},
 	methods: {
 		...mapActions('tvShows', ['getTVshow']),
 		...mapActions('movies', ['getMovie']),
+		...mapActions('users', ['getMyItems', 'addToList', 'deleteFromList', 'checkList']),
 		async setItem() {
 			if (this.$route.params.type === 'tvShow') {
 				const tvShow = await database.getItem({entity: 'tvShows', id: this.$route.params.id})
 				for (const key in tvShow) {
-					this.showedItem[key] = tvShow[key]
+					this.showedLocTV[key] = tvShow[key]
 				}
 				this.pictureTV = `https://image.tmdb.org/t/p/w300${tvShow.picture}`
 				this.trailerTV = `https://www.youtube.com/embed/${tvShow.trailer}/?rel=0`
+				document.documentElement.style.setProperty(`--image`, `'${this.pictureTV}'`);
 			} else {
 				const movie = await database.getItem({entity: 'movies', id: this.$route.params.id})
 				for (const key in movie) {
-						this.showedItem[key] = movie[key]
+					this.showedLocMovie[key] = movie[key]
 				}
-			debugger
 				this.pictureM = `https://image.tmdb.org/t/p/w300${movie.picture}`
 				this.trailerM = `https://www.youtube.com/embed/${movie.trailer}/?rel=0`
 			}
-
-		}
+		},
+		async addItem() {
+			await this.addToList([this.$route.params.id, this.$route.params.type + 's'])
+			this.inLIst = !this.inLIst
+		},
+		async deleteItem() {
+			await this.deleteFromList([this.$route.params.id, this.$route.params.type + 's'])
+			this.inLIst = !this.inLIst
+		},
 	},
-
 	async created() {
-		if (this.$route.params.type === 'tvShow') {
-			await this.getTVshow()
-		} else {
-			await this.getMovie()
-		}
+		this.inLIst = await this.checkList([this.$route.params.id,this.$route.params.type + 's'])
+		console.log(this.inLIst)
 		await this.setItem()
-	}
+	},
 }
 </script>
 
 <style scoped>
 
+.container {
+	color: white;
+	max-width: 960px;
+	margin: 1em auto;
+
+}
+
+.container .item {
+	position: relative;
+	width: 80%;
+	height: 80%;
+	background: rgb(100,100,255);
+}
+
+.item-section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.item-section h4 {
+	font-weight: bold;
+}
+
+.background-span{
+	background-color: black;
+}
+.item-section h6 {
+	align-self: flex-start;
+	margin: 1em;
+}
+
+.item-section .item-span{
+	font-weight: bold;
+}
+
+.item-section .item-video {
+	width: 500px;
+	height: 350px;
+	border: 1px solid white;
+}
+
+.item-section .add-btn {
+	width: 40px;
+	height: 40px;
+	position: absolute;
+	margin: 1em;
+	top: 0;
+	right: 0;
+}
+html, body{
+	min-height:100%;
+	overflow:auto;
+}
+body {
+	background-color: #1e1e1e;
+}
+
+
+.q-img {
+	height: 15%;
+	width: 30%
+}
 </style>

@@ -1,5 +1,6 @@
 export default {
     movies:[],
+    inList:[],
     editedMovieId: '',
     editedMovie: {
         title: '',

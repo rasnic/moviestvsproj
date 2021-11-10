@@ -1,4 +1,5 @@
 <template>
+	<body>
   <div>
   <div>
     <q-input  outlined v-model="userInput.email" label="אימייל"/>
@@ -7,6 +8,7 @@
     <q-btn @click="signIn()">sign in</q-btn>
     <q-btn @click="register()">register</q-btn>
   </div>
+	</body>
 </template>
 
 <script>
@@ -44,5 +46,11 @@ export default {
 </script>
 
 <style scoped>
-
+html, body{
+	min-height:100%;
+	overflow:auto;
+}
+body {
+	background-color: #1e1e1e;
+}
 </style>

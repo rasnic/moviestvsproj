@@ -52,6 +52,7 @@ export default {
 					.then(movies => {
 						Object.assign(this.items, movies.results)
 						this.setMovie(this.items)
+						return movies
 					})
 		},
 		async setMovie(movies) {

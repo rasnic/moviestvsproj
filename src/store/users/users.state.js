@@ -1,6 +1,6 @@
 export default {
-    userMovies: [],
-    userTvShows: [],
+    userItems: [],
+    inList:{},
     moviePics: [],
     tvPics: []
 }

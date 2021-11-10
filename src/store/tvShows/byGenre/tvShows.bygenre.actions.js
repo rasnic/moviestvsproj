@@ -2,7 +2,7 @@ import database from "@/middleware/firebase/database";
 
 export default {
     getTVshowsByGenre: async ({commit},genre) => {
-        const tvShows = await database.getGenre({entity: 'tvShows', genre:genre});
+        const tvShows = await database.getGenre({entity: 'tvShows', genre});
         commit('setTVshowsByGenre', tvShows)
         return tvShows
     },

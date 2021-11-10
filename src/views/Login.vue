@@ -1,4 +1,5 @@
 <template>
+	<body>
 	<div class="q-pa-md row items-start q-gutter-lg">
 
 		<q-card
@@ -30,7 +31,7 @@
 			</q-card-section>
 		</q-card>
 	</div>
-
+</body>
 </template>
 
 <script>
@@ -101,5 +102,11 @@ export default {
 </script>
 
 <style scoped>
-
+html, body{
+	min-height:100%;
+	overflow:auto;
+}
+body {
+	background-color: #1e1e1e;
+}
 </style>

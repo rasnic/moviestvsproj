@@ -1,10 +1,12 @@
 <template>
+	<body>
 <div class="movies" v-if="this.$route.params.type=== 'movies'">
 	<MoviesTableViewer />
 </div>
-	<div class="tvShows" v-else-if="this.$route.params.type=== 'tvShows'">
+	<div class="tvShows" v-else>
 		<TVshowTableViewer/>
 	</div>
+	</body>
 </template>
 
 <script>
@@ -17,5 +19,11 @@ export default {
 </script>
 
 <style scoped>
-
+html, body{
+	min-height:100%;
+	overflow:auto;
+}
+body {
+	background-color: #1e1e1e;
+}
 </style>
