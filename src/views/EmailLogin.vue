@@ -1,17 +1,21 @@
 <template>
 	<body>
-  <div>
-  <div>
-    <q-input  outlined v-model="userInput.email" label="אימייל"/>
-    <q-input  outlined v-model="userInput.password" label="סיסמא"/>
-  </div>
-    <q-btn @click="signIn()">sign in</q-btn>
-    <q-btn @click="register()">register</q-btn>
+  <div style="max-width: 500px; margin: 2em auto;">
+	  <div class="q-gutter-md text-center">
+		  <p style="color: white; font-size: 1.5em; font-weight: bold">התחברות</p>
+	    <q-input  filled dark outlined v-model="userInput.email" label="אימייל"/>
+	    <q-input  filled dark outlined v-model="userInput.password" label="סיסמא"/>
+	  </div>
+	  <div class="q-ma-lg">
+		  <q-btn class="q-mr-md" @click="signIn()" unelevated color="primary">התחבר</q-btn>
+		  <q-btn @click="register()" unelevated color="primary">הירשם</q-btn>
+	  </div>
   </div>
 	</body>
 </template>
 
 <script>
+
 import firebaseInstance from '../middleware/firebase'
 export default {
   name: "EmailLogin",
@@ -29,9 +33,9 @@ export default {
 			const password = this.userInput.password;
 	    firebaseInstance.firebase.auth().signInWithEmailAndPassword(email, password)
 			    .then((userCredential) => {
-				    // Signed in
 				    var user = userCredential.user;
-				    // ...
+				    this.$router.push('/')
+				    location.reload()
 			    })
 			    .catch((error) => {
 				    var errorCode = error.code;

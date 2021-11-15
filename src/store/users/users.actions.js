@@ -1,37 +1,35 @@
 import database from "../../middleware/firebase/database";
 
 export default {
+    // adds item to user list
     addToList: async ({commit}, [id, type]) => {
-        await database.insertToList({entity: type, id});
+        await database.insertToList({type, id});
     },
+    // deletes item from user list and delete it from state
     deleteFromList: async ({commit}, [id, type]) => {
-        const allItems = await database.get({entity: type})
-        await database.deleteFromListDb({entity: type, id})
+        const allItems = await database.get({type})
+        await database.deleteFromListDb({ type, id})
             .then(async ()=>{
-                const items = await database.getUserItems({entity: type, uid: window.user.uid});
-                commit('resetUserItems')
-                commit('setUserItems', [items, allItems])
+                const items = await database.getUserItems({type, uid: window.user.uid});
+                commit('resetUserItems', type)
+                commit('setUserItems', [items, allItems,type])
             })
     },
+    // gets user items and set them in state
     getMyItems: async ({commit}, type) => {
-        const allItems = await database.get({entity: type})
-        const items = await database.getUserItems({entity: type, uid: window.user.uid});
-        commit('resetUserItems')
-        commit('setUserItems', [items, allItems])
+        const allItems = await database.get({type})
+        const items = await database.getUserItems({ type, uid: window.user.uid});
+        commit('resetUserItems',type)
+        commit('setUserItems', [items, allItems,type])
         return items
-
     },
-    getMoviesPicture: async ({commit}) => {
-        const moviePics = await database.getPics({entity: 'movies'});
-        console.log(moviePics)
-        commit('setMoviesPics', moviePics)
+    // gets pictures of admins list and sets them in state
+    getPicture: async ({commit}, type) => {
+        const pics = await database.getPics({type});
+        commit('setPics', [pics,type])
     },
-    getTVsPicture: async ({commit}) => {
-        const tvPics = await database.getPics({entity: 'tvShows'});
-        console.log(tvPics)
-        commit('setTVPics', tvPics)
-    },
+// checks if an item is in a user list
     checkList: async ({commit}, [id, type]) => {
-        return await database.checkList({entity: type, id})
+        return await database.checkList({type, id})
     }
 }

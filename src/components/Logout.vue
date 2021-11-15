@@ -13,8 +13,8 @@ export default {
     logout(){
       firebaseInstance.firebase.auth().signOut().then(() => {
 	      window.user = undefined
-	      location.reload();
 	      this.$router.push(`/`);
+	      location.reload();
       }).catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;

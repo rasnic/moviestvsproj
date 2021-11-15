@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from './App.vue'
+import app from './App.vue'
 import router from './router'
 import store from './store'
 import iconSet from 'quasar/icon-set/fontawesome-v5'
@@ -14,6 +14,6 @@ firebaseInstance.firebase.auth().onAuthStateChanged((user) => {
   new Vue({
     router,
     store,
-    render: h => h(App)
+    render: h => h(app)
   }).$mount('#app')
 })

@@ -1,7 +1,8 @@
 export default {
-    setUserItems: ((state, [items, allItems]) => {
+    // sets user items to state
+    setUserItems: ((state, [items, allItems,type]) => {
         allItems.pop()
-            state.userItems = items
+            state.userItems[type] = items
         for (let i = 0; i < allItems.length; i++) {
             if (items.length === 0){
                 state.inList[allItems[i].id] = false
@@ -17,10 +18,8 @@ export default {
             }
         }
     }),
-
-    setMoviesPics: ((state, pics) => state.moviePics = pics),
-
-    setTVPics: ((state, pics) => state.tvPics = pics),
-
-    resetUserItems: ((state) => state.userItems = '')
+// sets admin items picture in state
+    setPics: ((state, [pics,type]) => state.pics[type] = pics),
+// resets user items
+    resetUserItems: ((state, type) => state.userItems[type] = '')
 }

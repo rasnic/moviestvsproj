@@ -1,20 +1,19 @@
 <template>
 	<body>
-<div class="movies" v-if="this.$route.params.type=== 'movies'">
-	<MoviesTableViewer />
+<div v-if="this.$route.params.type=== 'movies'">
+	<ItemTableViewer :type="'movies'"/>
 </div>
-	<div class="tvShows" v-else>
-		<TVshowTableViewer/>
+	<div v-else>
+		<ItemTableViewer :type="'tvShows'"/>
 	</div>
 	</body>
 </template>
 
 <script>
-import MoviesTableViewer from "@/components/MoviesTableViewer";
-import TVshowTableViewer from "@/components/TVshowTableViewer";
+import ItemTableViewer from "@/components/ItemTableViewer";
 export default {
 	name: "AllItems",
-	components: {MoviesTableViewer, TVshowTableViewer}
+	components: {ItemTableViewer}
 }
 </script>
 

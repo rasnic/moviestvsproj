@@ -10,8 +10,7 @@ import Admin from "@/views/Admin";
 import Item from "@/views/Item";
 import UserItems from "@/views/UserItems";
 import AllItems from "@/views/AllItems";
-import TVshowTableViewer from "@/components/TVshowTableViewer";
-import MoviesTableViewer from "@/components/MoviesTableViewer";
+import ItemTableViewer from "@/components/ItemTableViewer";
 import UserAcc from "@/views/UserAcc";
 import Recommended from "@/views/Recommended";
 import GenreView from "@/components/GenreView";
@@ -66,16 +65,12 @@ const routes = [
     component: UserAcc,
     meta: {authNotRequired: false}
   },
-  {
-    path: `/tvShows/:genre`,
-    name: 'TVshowByGenre',
-    component: TVshowTableViewer,
-    meta: {authNotRequired: false}
-  },
+
   {
     path: '/movies/:genre',
-    name: 'MovieByGenre',
-    component: MoviesTableViewer,
+    name: 'ItemTableViewer',
+    alias: `/tvShows/:genre`,
+    component: ItemTableViewer,
     meta: {authNotRequired: false}
   },
   {

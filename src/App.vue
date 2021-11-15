@@ -1,6 +1,6 @@
 <template >
 	<q-layout view="lHh Lpr lFf" >
-		<q-header elevated class="glossy">
+		<q-header>
 			<q-toolbar>
 				<q-btn v-if="userN !== 'DISCONNECTED'"
 				       flat
@@ -11,15 +11,15 @@
 				       icon="menu"
 				/>
 
-				<q-toolbar-title>
-					movies and tv shows App
+				<q-toolbar-title class="text-bold text-center">
+					GAL-MDB
 				</q-toolbar-title>
 
-				<div>
-					<q-btn v-if="userN !== 'DISCONNECTED'" @click="disconnect" text-color="white" color="dark grey">התנתק</q-btn>
+
+				<div style="display: flex; align-items: center; justify-content: center; gap: 2em">
+					<p style="margin: 0; font-size: 1.2em; text-transform: uppercase" v-if="userN !== 'DISCONNECTED'"> {{ userN }} ברוך הבא</p>
+					<q-btn icon="logout" flat v-if="userN !== 'DISCONNECTED'" @click="disconnect" text-color="white" color="secondary" dense unelevated/>
 				</div>
-				<div v-if="userN !== 'DISCONNECTED'"> {{ userN }} ברוך הבא</div>
-				<div v-if="userN === 'DISCONNECTED'">ברוך הבא</div>
 			</q-toolbar>
 		</q-header>
 
@@ -38,11 +38,11 @@
 					</q-item-section>
 				</q-item>
 
-				<q-item clickable tag="a" @click="myPage">
-					<q-item-section>
-						<q-item-label align="center">החשבון שלי</q-item-label>
-					</q-item-section>
-				</q-item>
+<!--				<q-item clickable tag="a" @click="myPage">-->
+<!--					<q-item-section>-->
+<!--						<q-item-label align="center">החשבון שלי</q-item-label>-->
+<!--					</q-item-section>-->
+<!--				</q-item>-->
 
 				<q-item clickable tag="a" @click="recommendations">
 					<q-item-section>
@@ -146,11 +146,12 @@ export default {
 			this.$router.push(`/user/${this.userN}`)
 			location.reload()
 		},
-		disconnect() {
-			this.$router.push('/')
-			Logout.methods.logout();
+		async disconnect() {
+			await Logout.methods.logout();
+			window.user = undefined
 			this.userN = 'DISCONNECTED'
-			location.reload()
+			await this.$router.push(`/`);
+			location.reload();
 		},
 		items(type) {
 	this.$router.push(`/${type}`)
@@ -171,15 +172,14 @@ export default {
 		}
 	},
 
-	created() {
+	async created() {
 		if (window.user && window.user.displayName) {
 			this.userN = window.user.displayName
 		}
 		if (window.user && !window.user.displayName) {
-			this.userN = getUserName({uid: window.user.uid})
+			 this.userN = await getUserName({uid: window.user.uid})
 		}
 	},
-
 }
 </script>
 

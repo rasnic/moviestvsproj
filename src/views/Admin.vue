@@ -1,28 +1,26 @@
 <template>
-  <div class="admin">
-    <AddTVshows/>
-    <AddMovies/>
+	<body>
+	<div>
+    <AddItems :type="'tvShows'"/>
+    <AddItems :type="'movies'"/>
+	</div>
 	  <div>
-		  <TVshowsTableViewer :admin="true" />
+		  <ItemTableViewer :admin="true" :type="'tvShows'"/>
 	  </div>
 	  <div>
-		  <MoviesTableViewer :admin="true" />
+		  <ItemTableViewer :admin="true" :type="'movies'" />
 	  </div>
-  </div>
+	</body>
 </template>
 
 <script>
-import AddTVshows from "@/components/AddTVshows";
-import AddMovies from "@/components/AddMovies";
-import TVshowsTableViewer from  '../components/TVshowTableViewer'
-import MoviesTableViewer from "@/components/MoviesTableViewer";
+import AddItems from "@/components/AddItems";
+import ItemTableViewer from "@/components/ItemTableViewer";
 export default {
   name: 'Admin',
   components: {
-    AddMovies,
-    AddTVshows,
-	  TVshowsTableViewer,
-	  MoviesTableViewer
+	  ItemTableViewer,
+    AddItems,
   },
 };
 </script>

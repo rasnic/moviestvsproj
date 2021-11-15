@@ -4,7 +4,7 @@
 		<q-card dir="rtl" class="item" v-if="this.$route.params.type === 'tvShow'" >
 			<q-card-section class="item-section" :style="{backgroundImage: `url(${this.pictureTV})`}">
 				<h4><span class="background-span">{{ this.showedLocTV.name }}</span></h4>
-				<q-btn class="add-btn" v-if="!this.inLIst" color="red" icon="add" @click="addItem()"/>
+				<q-btn class="add-btn" v-if="!this.inList" color="red" icon="add" @click="addItem()"/>
 				<q-btn class="add-btn" v-else color="grey" icon="remove"  @click="deleteItem()"/>
 
 				<h6><span class="background-span"><span class="item-span">תקציר: </span>
@@ -26,7 +26,7 @@
 		<q-card dir="rtl" class="item" v-if="this.$route.params.type === 'movie'" >
 			<q-card-section class="item-section" :style="{backgroundImage: `url(${this.pictureM})`}">
 				<h4 align="center"><span class="background-span">{{ this.showedLocMovie.title }}</span></h4>
-				<q-btn class="add-btn" v-if="!this.inLIst" color="red" icon="add"  @click="addItem()"/>
+				<q-btn class="add-btn" v-if="!this.inList" color="red" icon="add"  @click="addItem()"/>
 				<q-btn class="add-btn" v-else color="grey" icon="remove"  @click="deleteItem()"/>
 				<h6 dir="rtl"><span class="background-span"><span class="item-span">תקציר: </span>{{ this.showedLocMovie.overview }}</span></h6>
 				<h6 align="right"><span class="background-span"><span class="item-span">תאריך יציאה: </span>{{ this.showedLocMovie.release_date }}</span></h6>
@@ -54,7 +54,7 @@ export default {
 				type: 'tvShows',
 				trailerTV: 'empty',
 				pictureTV: 'empty',
-				inLIst: '',
+				inList: '',
 				image: {backgroundImage: "url()"},
 				showedLocTV: {
 					name: '',
@@ -74,7 +74,7 @@ export default {
 				type: 'movies',
 				trailerM: 'empty',
 				pictureM: 'empty',
-				inLIst: '',
+				inList: '',
 				showedLocMovie: {
 					title: '',
 					id: '',
@@ -88,17 +88,12 @@ export default {
 			}
 		}
 	},
-	computed: {
-		...mapState('tvShows', ['showedTV', 'tvShows']),
-		...mapState('movies', ['showedMovie', 'movies']),
-	},
 	methods: {
-		...mapActions('tvShows', ['getTVshow']),
-		...mapActions('movies', ['getMovie']),
-		...mapActions('users', ['getMyItems', 'addToList', 'deleteFromList', 'checkList']),
+		...mapActions('users', ['addToList', 'deleteFromList', 'checkList']),
 		async setItem() {
+
 			if (this.$route.params.type === 'tvShow') {
-				const tvShow = await database.getItem({entity: 'tvShows', id: this.$route.params.id})
+				const tvShow = await database.getItem({type: 'tvShows', id: this.$route.params.id})
 				for (const key in tvShow) {
 					this.showedLocTV[key] = tvShow[key]
 				}
@@ -106,7 +101,7 @@ export default {
 				this.trailerTV = `https://www.youtube.com/embed/${tvShow.trailer}/?rel=0`
 				document.documentElement.style.setProperty(`--image`, `'${this.pictureTV}'`);
 			} else {
-				const movie = await database.getItem({entity: 'movies', id: this.$route.params.id})
+				const movie = await database.getItem({type: 'movies', id: this.$route.params.id})
 				for (const key in movie) {
 					this.showedLocMovie[key] = movie[key]
 				}
@@ -116,16 +111,15 @@ export default {
 		},
 		async addItem() {
 			await this.addToList([this.$route.params.id, this.$route.params.type + 's'])
-			this.inLIst = !this.inLIst
+			this.inList = !this.inList
 		},
 		async deleteItem() {
 			await this.deleteFromList([this.$route.params.id, this.$route.params.type + 's'])
-			this.inLIst = !this.inLIst
+			this.inList = !this.inList
 		},
 	},
 	async created() {
-		this.inLIst = await this.checkList([this.$route.params.id,this.$route.params.type + 's'])
-		console.log(this.inLIst)
+		this.inList = await this.checkList([this.$route.params.id,this.$route.params.type + 's'])
 		await this.setItem()
 	},
 }
@@ -142,9 +136,6 @@ export default {
 
 .container .item {
 	position: relative;
-	width: 80%;
-	height: 80%;
-	background: rgb(100,100,255);
 }
 
 .item-section {

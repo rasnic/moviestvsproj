@@ -1,7 +1,7 @@
 <template>
 	<div class="q-pa-md flex" style="justify-content: center">
 		<div class="q-pa-sm">
-			<h3 align="center">סרטים מומלצים</h3>
+			<h3 class="head">סרטים מומלצים</h3>
 			<q-carousel
 					style="aspect-ratio: 9/16; height: 800px"
 					animated
@@ -15,11 +15,12 @@
 					@mouseenter="autoplay = false"
 					@mouseleave="autoplay = true"
 			>
-				<q-carousel-slide v-for="pic in this.moviePictures" :name="pic" :img-src="pic"/>
+				<q-carousel-slide v-for="item in this.items.movies" :key="item.id" :name="item.title" :img-src="item.picture"
+				@click="goToItem('movie', item.id)"/>
 			</q-carousel>
 		</div>
 		<div class="q-pa-sm flex2">
-			<h3 align="center">סדרות מומלצות</h3>
+			<h3 class="head">סדרות מומלצות</h3>
 			<q-carousel
 					style="aspect-ratio: 9/16; height: 800px"
 
@@ -34,7 +35,8 @@
 					@mouseenter="autoplay = false"
 					@mouseleave="autoplay = true"
 			>
-				<q-carousel-slide v-for="pic in this.tvPicture" :name="pic" :img-src="pic"/>
+				<q-carousel-slide v-for="item in this.items.tvShows" :key="item.id" :name="item.name" :img-src="item.picture"
+				@click="goToItem('tvShow', item.id, item)"/>
 			</q-carousel>
 		</div>
 	</div>
@@ -47,29 +49,45 @@ export default {
 	name: "Carousel",
 	data() {
 		return {
-			moviePictures: [],
-			tvPicture: [],
+			items:{movies:{}, tvShows:{}},
 			autoplay: true,
 			slide1: 1,
 			slide2: 2
 		}
 	},
-	computed: mapState('users', ['moviePics', 'tvPics']),
+	computed: mapState('users', ['pics','userItems']),
 	methods: {
-		...mapActions('users', ['getMoviesPicture', 'getTVsPicture']),
+		...mapActions('users', ["getMyItems"]),
+		...mapMutations('items', ['setEditedItemId', 'setShowedItemId', 'setItem']),
+		async goToItem(type,id,item){
+			await this.setShowedItemId([id,type])
+			await this.setItem([ item,type])
+			await this.$router.push(`/${type}/${id}`)
+		}
 	},
 	async created() {
-		await this.getMoviesPicture()
-		await this.getTVsPicture()
-		for (let i = 0; i < this.moviePics.length; i++) {
-			this.moviePictures.push('https://image.tmdb.org/t/p/w500' + this.moviePics[i])
+		this.$q.loading.show({message:'טוען המלצות'})
+		await this.getMyItems('movies')
+		await this.getMyItems('tvShows')
+		this.items.movies = JSON.parse(JSON.stringify(this.userItems.movies))
+		this.items.tvShows = JSON.parse(JSON.stringify(this.userItems.tvShows))
+		for (let i = 0; i < this.userItems.movies.length; i++) {
+			await Object.assign(this.items.movies[i] , this.userItems.movies[i])
+			this.items.movies[i]['picture']= 'https://image.tmdb.org/t/p/w500' + this.items.movies[i].picture
 		}
-		for (let i = 0; i < this.tvPics.length; i++) {
-			this.tvPicture.push('https://image.tmdb.org/t/p/w500' + this.tvPics[i])
+		for (let i = 0; i < this.userItems.tvShows.length; i++) {
+		await Object.assign(this.items.tvShows[i] , this.userItems.tvShows[i])
+			this.items.tvShows[i]['picture']= 'https://image.tmdb.org/t/p/w500' + this.items.tvShows[i].picture
 		}
-	}
+		this.$q.loading.hide()
+	},
+
 }
 </script>
 
 <style scoped>
+.head{
+	text-align: center;
+	color: white;
+}
 </style>
