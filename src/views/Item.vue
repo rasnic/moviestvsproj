@@ -14,7 +14,7 @@
 					{{ this.showedLocTV.first_air_date }}</span></h6>
 				<h6><span class="background-span"><span class="item-span">מספר עונות: </span>{{ this.showedLocTV.number_of_seasons }}</span></h6>
 				<h6><span class="background-span"><span class="item-span">מספר פרקים: </span>{{ this.showedLocTV.number_of_episodes }}</span></h6>
-				<h6><span class="background-span"><span class="item-span">אורך פרק: </span>{{ this.showedLocTV.episode_run_time }}</span></h6>
+				<h6><span class="background-span"><span class="item-span">אורך פרק: </span>{{ this.showedLocTV.episode_run_time.toString() }}</span></h6>
 				<h6><span class="background-span"><span class="item-span">שפות: </span>{{ this.showedLocTV.languages }}</span></h6>
 				<h6><span class="background-span"><span class="item-span">דירוג: </span>{{ this.showedLocTV.vote_average }}</span></h6>
 				<h6><span class="background-span"><span class="item-span">ז'אנרים: </span>{{ this.showedLocTV.genres.toString() }}</span></h6>

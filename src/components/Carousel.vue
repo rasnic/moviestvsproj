@@ -55,9 +55,9 @@ export default {
 			slide2: 2
 		}
 	},
-	computed: mapState('users', ['pics','userItems']),
+	computed: mapState('items', ['adminItems']),
 	methods: {
-		...mapActions('users', ["getMyItems"]),
+		...mapActions('items', ["getAdminItems"]),
 		...mapMutations('items', ['setEditedItemId', 'setShowedItemId', 'setItem']),
 		async goToItem(type,id,item){
 			await this.setShowedItemId([id,type])
@@ -67,16 +67,16 @@ export default {
 	},
 	async created() {
 		this.$q.loading.show({message:'טוען המלצות'})
-		await this.getMyItems('movies')
-		await this.getMyItems('tvShows')
-		this.items.movies = JSON.parse(JSON.stringify(this.userItems.movies))
-		this.items.tvShows = JSON.parse(JSON.stringify(this.userItems.tvShows))
-		for (let i = 0; i < this.userItems.movies.length; i++) {
-			await Object.assign(this.items.movies[i] , this.userItems.movies[i])
+		await this.getAdminItems('movies')
+		await this.getAdminItems('tvShows')
+		this.items.movies = JSON.parse(JSON.stringify(this.adminItems.movies))
+		this.items.tvShows = JSON.parse(JSON.stringify(this.adminItems.tvShows))
+		for (let i = 0; i < this.adminItems.movies.length; i++) {
+			await Object.assign(this.items.movies[i] , this.adminItems.movies[i])
 			this.items.movies[i]['picture']= 'https://image.tmdb.org/t/p/w500' + this.items.movies[i].picture
 		}
-		for (let i = 0; i < this.userItems.tvShows.length; i++) {
-		await Object.assign(this.items.tvShows[i] , this.userItems.tvShows[i])
+		for (let i = 0; i < this.adminItems.tvShows.length; i++) {
+		await Object.assign(this.items.tvShows[i] , this.adminItems.tvShows[i])
 			this.items.tvShows[i]['picture']= 'https://image.tmdb.org/t/p/w500' + this.items.tvShows[i].picture
 		}
 		this.$q.loading.hide()

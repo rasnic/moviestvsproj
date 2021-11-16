@@ -27,9 +27,10 @@
 
 			<template v-slot:body="props" v-slot:top>
 				<q-tr :props="props" align="center">
-					<q-td class="content_td" dir="rtl" key="genres" :props="props">
+					<q-td v-if="props.row.genres" class="content_td" dir="rtl" key="genres" :props="props">
 						{{ props.row.genres.toString() }}
 					</q-td>
+					<q-td v-else class="content_td" dir="rtl" key="genres" :props="props"></q-td>
 
 					<q-td v-if="props.row.overview.substring(0,1)>='A' && props.row.overview.substring(0,1)<='Z'"
 					      class="content_td push" dir="ltr" key="overview"
@@ -44,21 +45,18 @@
 
 					<q-td class="content_td" key="languages" :props="props">{{ props.row.languages }}</q-td>
 
-					<q-td v-if="typeinst === 'movies'" class="content_td" key="runtime" :props="props">{{
-							props.row.runtime
-						}}
-					</q-td>
+					<q-td v-if="typeinst === 'movies'" class="content_td" key="runtime" :props="props">{{props.row.runtime }}</q-td>
 
-					<q-td v-if="typeinst === 'movies'" key="release_date" class="content_td" :props="props">
-						{{ props.row.release_date }}
-					</q-td>
+					<q-td v-if="typeinst === 'movies'" key="release_date" class="content_td" :props="props">{{ props.row.release_date }}</q-td>
 
 					<q-td v-if="typeinst === 'movies'" class="content_td push bold" key="title" style="direction: rtl" :props="props"
 					      @click="goToItem(props.row.id)">{{ props.row.title }}
 					</q-td>
 
-					<q-td v-if="typeinst === 'tvShows'" class="content_td" key="episode_run_time" :props="props">
+					<q-td v-if="typeinst === 'tvShows' && props.row.episode_run_time" class="content_td" key="episode_run_time" :props="props">
 						{{ props.row.episode_run_time.toString() }}
+					</q-td>
+					<q-td v-if="typeinst === 'tvShows' && !props.row.episode_run_time" class="content_td" key="episode_run_time" :props="props">
 					</q-td>
 
 					<q-td v-if="typeinst === 'tvShows'" class="content_td" key="number_of_episodes" :props="props">

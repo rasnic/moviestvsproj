@@ -5,6 +5,8 @@ export default {
     setShowedItemId: ((state, [id, type]) => state.showedItemId[type] = id),
 // sets items in state
     setItems: ((state, [items, type]) => state.items[type] = items),
+// sets items in state
+    setAdminItems: ((state, [items, type]) => state.adminItems[type] = items),
 // sets edited item id in state
     setEditedItemId: ((state, [id, type]) => state.editedItemId[type] = id),
 // sets edited item in state

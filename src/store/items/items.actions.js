@@ -8,10 +8,16 @@ export default {
         commit('setItem', [item, cut])
         return item
     },
-    // gets item and sets them in state
+    // gets items and sets them in state
     getItems: async ({commit}, type) =>{
         const items = await database.get({type});
         commit('setItems', [items, type])
+        return items
+    },
+    // gets admin items and sets them in state
+    getAdminItems: async ({commit}, type) =>{
+        const items = await database.getAdminItems({type});
+        commit('setAdminItems', [items, type])
         return items
     },
     // deletes item from db and from state

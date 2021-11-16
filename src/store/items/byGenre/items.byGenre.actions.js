@@ -14,7 +14,7 @@ export default {
         item.id = state.editedItemId[type]
         for (let i = 0; i < item.genres.length; i++) {
             await database.insertByGenre({type, item, id: state.editedItem[type].id, genre: item.genres[i]})
-            commit('insertItemByGenre', [item, item.genres[i]])
+            commit('insertItemByGenre', [item, item.genres[i],type])
         }
         commit('resetEditedItem', type)
     }

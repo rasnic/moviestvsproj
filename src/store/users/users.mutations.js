@@ -21,5 +21,5 @@ export default {
 // sets admin items picture in state
     setPics: ((state, [pics,type]) => state.pics[type] = pics),
 // resets user items
-    resetUserItems: ((state, type) => state.userItems[type] = '')
+    resetUserItems: ((state, type) => state.userItems[type] = ''),
 }

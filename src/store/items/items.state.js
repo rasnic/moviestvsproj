@@ -1,5 +1,6 @@
 export default {
     items:{tvShows: [], movies: []},
+    adminItems:{tvShows: [], movies: []},
     editedItemId:{
         tvShows: '', movies: ''
     },

@@ -108,8 +108,11 @@ export default {
 								}
 								this.editedItem.trailer = await api.getTrailer({type: this.entity, id: item.id});
 								this.editedItem.picture = await api.getPicture({type: this.entity, id: item.id});
-								if (!this.editedItem.overview || !this.editedItem.picture || !this.editedItem.trailer || !this.editedItem.languages || genres === []) {
+								if (!this.editedItem.overview || !this.editedItem.picture || !this.editedItem.trailer || !this.editedItem.languages || this.editedItem.genres === []) {
 									drop.push(i)
+									if (this.type === 'tvShows' && !this.editedItem.episode_run_time) {
+										drop.push(i)
+									}
 								} else {
 									this.items.splice(i, 1, this.editedItem)
 								}

@@ -38,7 +38,7 @@ export default {
     setEditedItemByGenre: ((state, [item, type]) => state.editedItem[type] = item),
 // inserts item to genre list state
     insertItemByGenre: ((state, [item, genre, type]) =>{
-        if (!state.items[type][genre]){
+        if (state.items[type][genre] === undefined){
             state.items[type][genre] = []
         }
         state.items[type][genre].push(item)

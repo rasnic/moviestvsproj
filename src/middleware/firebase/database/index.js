@@ -25,7 +25,7 @@ function setItems(res, user = undefined) {
     for (const key in map) {
         const item = map[key];
         item.id = key;
-        const genres = item['genres'].toString()
+        const genres = item['genres']
         item['genres'] = undefined
         item['genres'] = genres
         arr.push(item);
@@ -91,6 +91,14 @@ async function getUserItems(options) {
         return setItems(res, true)
         })
 }
+
+// gets admin items of a certain type
+async function getAdminItems(options) {
+    return await firebaseInstance.firebase.database().ref(`users/dsm7CKcNRxQ7MZZOjCfEmSORt653/${options.type}`).once('value')
+        .then( res => {
+            return setItems(res, true)
+        })
+}
 // gets admin pictures for recommended movies and tv shows
 async function getPics(options) {
     let pics = [];
@@ -126,5 +134,6 @@ export default {
     getPics,
     insertToList,
     deleteFromListDb,
-    checkList
+    checkList,
+    getAdminItems
 };
